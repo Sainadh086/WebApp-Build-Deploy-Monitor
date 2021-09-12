@@ -1,0 +1,52 @@
+name: CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: build a docker image
+        run: docker build -t devapp:v1 .
+
+      - name: Push the docker image to the repository
+        shell: bash
+        env:
+          user_name: ${{ secrets.DOCKER_USER_NAME }}
+          user_password: ${{ secrets.DOCKER_USER_PASSWORD }}
+        run: |
+          export ver=$(git rev-list --all --count) 
+          docker login -u $user_name -p $user_password
+          docker tag devapp:v1 sainadh086/mytaskapp:v$ver
+          docker push sainadh086/mytaskapp:v$ver
+          echo "Success"
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Running tests
+        shell: bash
+        env:
+          host: ${{ secrets.HOST }}
+        run: |
+        echo "Started testing the docker app"
+        docker pull sainadh086/mytaskapp:latest
+        docker run -p 8080:8080 -e MYAPP_DB_HOST=$host -e MYAPP_BD_PORT=27017 -e MYAPP_DB_USER="" -e MYAPP_DB_PASSWORD="" sainadh086/mytaskapp:latest
+        echo "Just ran the docker app"
+        export status = $(curl -i http://localhost:8080/ | awk 'NR == 1' | awk '{print $2}')
+        if [ $status == 200 ]; then echo "Success"; else echo "failed"; fi
+        echo "Completed testing"
+
