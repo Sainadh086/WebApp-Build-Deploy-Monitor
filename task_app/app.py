@@ -69,7 +69,8 @@ def create():
 @endpoint_count
 def error():
     return """
-    <CENTER><h4> Please enter database credentials </h4><br><H3>Enter MYAPP_DB_USER<br>MYAPP_DB_PASSWORD<BR>
+    <CENTER><h2> Please enter database credentials </h2><br><H3>Enter Below Details
+    <br> MYAPP_DB_USER<br>MYAPP_DB_PASSWORD<BR>
     MYAPP_DB_HOST<BR>
     MYAPP_DB_PORT</H3>
     <CENTER>

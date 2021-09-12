@@ -1,0 +1,17 @@
+# service monitor to monitor the taskapp
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: taskapp-monitor
+  namespace: taskapp
+  labels:
+    app: taskapp
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app:  taskapp
+      env: dev
+  endpoints:
+  - port: 8081
+    interval: 10
