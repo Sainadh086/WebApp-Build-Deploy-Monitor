@@ -16,22 +16,23 @@ spec:
       containers:
       - name: mongodb
         image: mongo:4.2.1
-        enviroment:
-        - name: MONGO_INITDB_ROOT_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: taskapp-secrets
-              key: db_user
-        - name: MONGO_INITDB_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: taskapp-secrets
-              key: db_password
+        - env:
+          - name: MONGO_INITDB_ROOT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: taskapp-secrets
+                 key: db_user
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: taskapp-secrets
+                key: db_password
         ports:
         - containerPort: 27017
         volumeMounts:
-        - name: mongodb-data
+        - name: db-volume
           mountPath: /data/db
       volumes:
       - name: mongodb-data
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: mongodb-data

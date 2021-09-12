@@ -1,17 +1,19 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    app.kubernetes.io/instance: webapp
   name: dashborad-ingress
   namespace: kubernetes-dashboard
 spec:
-  rules: #ingress rules
-  - host: dashboard.com #url name to connect
-    http: #just a request forwader
-      paths: #it connects to the svc and also used to write contexts of the URLS
-      - pathType: Prefix
-        path: "/taskapp" 
-        backend:
-          service:
-            name: taskapp-service
-            port: 
-              number: 8080
+  rules:
+    - host: dashboard.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: taskapp-service
+                port:
+                  number: 8080
+            path: /taskapp
+            pathType: Prefix

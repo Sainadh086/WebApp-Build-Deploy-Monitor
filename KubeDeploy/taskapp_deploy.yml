@@ -1,9 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myapp
   labels:
     app: myapp
+    app.kubernetes.io/instance: webapp
+  name: myapp
 namespace: taskapp
 spec:
   replicas: 3
@@ -16,22 +17,22 @@ spec:
         app: myapp
     spec:
       containers:
-      - name: myapp
-        image: mytaskapp:latest
-        ports:
-        - containerPort: 8080
-        env:
-        - name: MYAPP_DB_HOST
-          value: MONGODB_SERVICE_HOST
-        - name: MYAPP_DB_PORT
-          value: "27017"
-        - name: MYAPP_DB_USER
-          valueFrom:
-            secretKeyRef:
-              name: taskapp-secrets
-              key: db_user
-        - name: MYAPP_DB_PASS
-          valueFrom:
-            secretKeyRef:
-              name: taskapp-secrets
-              key: db_password
+        - env:
+            - name: MYAPP_DB_HOST
+              value: MONGODB_SERVICE_HOST
+            - name: MYAPP_DB_PORT
+              value: '27017'
+            - name: MYAPP_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  key: db_user
+                  name: taskapp-secrets
+            - name: MYAPP_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: db_password
+                  name: taskapp-secrets
+          image: 'mytaskapp:latest'
+          name: myapp
+          ports:
+            - containerPort: 8080
