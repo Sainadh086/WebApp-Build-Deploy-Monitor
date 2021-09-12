@@ -25,9 +25,10 @@ try:
     port = os.environ.get('MYAPP_DB_PORT')
 
     db = MongoClient(f'mongodb://{user}:{password}@{host}:{port}/')
+    notes = db['app']['notes']
 except:
-    db = MongoClient("mongodb://192.168.1.8:27017/")
-notes = db['app']['notes']
+    #db = MongoClient("mongodb://192.168.1.8:27017/")
+    redirect('/error')
 # lambda function
 p_data = lambda x: request.form.get(x)
 
@@ -64,6 +65,15 @@ def index():
 def create():
     return render_template("create.html")
 
+@app.route("/error")
+@endpoint_count
+def error():
+    return """
+    <CENTER><h4> Please enter database credentials </h4><br><H3>Enter MYAPP_DB_USER<br>MYAPP_DB_PASSWORD<BR>
+    MYAPP_DB_HOST<BR>
+    MYAPP_DB_PORT</H3>
+    <CENTER>
+    """
 if __name__ =="__main__":
     app.run(host="0.0.0.0", port="8080", debug=False)
 
