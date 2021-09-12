@@ -1,0 +1,29 @@
+<html>
+    {% include 'base.html' %}
+<br> <br> <br>
+
+    <div class="row mt-5 justify-content-center">
+      <div class="col-lg-10">
+        <form method="post" class="php-email-form" action='/'> 
+          <div class="form-row">
+            <div class="col-md-6 form-group">
+              <input type="text" name="title" class="form-control" id="name" placeholder="Enter Title" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+              <div class="validate"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <textarea class="form-control" name="description"  rows="5" data-rule="required" data-msg="Please write something!!" placeholder="Description"></textarea>
+            <div class="validate"></div>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="status" id="status" placeholder="Status" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+            <div class="validate"></div>
+          </div>
+          <button type="submit" name="operation" value="null" style="background-color: lightskyblue;">Cancel</button>
+          <button type="submit" name="operation" value="create" style="background-color: lightskyblue;">Save</button>
+
+        </form>
+      </div>
+
+    </div>
+</html>

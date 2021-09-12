@@ -1,0 +1,30 @@
+<html>
+{% include 'base.html' %}
+<br><br><br>
+{% if notes[0] %}    
+{% for note in notes %}
+<section>
+    <div class="row mt-5 justify-content-center">
+        <div class="col-lg-10">
+            <form class="php-email-form" method="POST" action="/">
+                <div class="section-title">
+                
+                <h3 id="title">{{ note['title'] }} </h3>
+                <p id = "description">Description: {{ note['description'] }}</p>
+                <p id="status">Status: {{ note['status'] }}</p>
+                
+                <input type="hidden" name='id' value={{ note['_id'] }}></input>
+
+                <button type="submit" name="operation" value="edit" style="background-color: lightskyblue;">Edit</button>
+                <button type="submit" name="operation" value="remove" style="background-color: lightskyblue;">Remove</button>
+            </div>
+            </form>
+        </div>
+      </div>
+
+    {% endfor %}
+    {% else %}
+                <h3>Create your  new Note</h3>
+    {% endif %}
+    </section>
+</html>
