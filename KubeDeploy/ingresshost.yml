@@ -3,8 +3,8 @@ kind: Ingress
 metadata:
   labels:
     app.kubernetes.io/instance: webapp
-  name: dashborad-ingress
-  namespace: kubernetes-dashboard
+  name: webapp-ingress
+  namespace: taskapp
 spec:
   rules:
     - host: dashboard.com
