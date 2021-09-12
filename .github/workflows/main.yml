@@ -38,7 +38,7 @@ jobs:
           echo "Testing"
           echo "Started testing the docker app"
           docker pull docker.io/sainadh086/mytaskapp:v$ver
-          docker run -p 8080:8080 -e MYAPP_DB_HOST=$host -e MYAPP_BD_PORT=27017 -e MYAPP_DB_USER="" -e MYAPP_DB_PASSWORD="" sainadh086/mytaskapp:latest
+          docker run -p 8080:8080 -e MYAPP_DB_HOST=$host -e MYAPP_BD_PORT=27017 -e MYAPP_DB_USER="" -e MYAPP_DB_PASSWORD="" sainadh086/mytaskapp:v$ver
           echo "Just ran the docker app"
           export status = $(curl -i http://localhost:8080/ | awk 'NR == 1' | awk '{print $2}')
           if [ $status == 200 ]; then echo "Success"; else echo "failed"; fi
