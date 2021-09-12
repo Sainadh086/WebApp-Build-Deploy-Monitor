@@ -32,7 +32,7 @@ spec:
                 secretKeyRef:
                   key: db_password
                   name: taskapp-secrets
-          image: 'mytaskapp:latest'
+          image: 'mytaskapp:v1'
           name: myapp
           ports:
             - containerPort: 8080
