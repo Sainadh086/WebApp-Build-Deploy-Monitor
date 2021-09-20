@@ -15,5 +15,5 @@ spec:
                 name: taskapp-service
                 port:
                   number: 8080
-            path: /taskapp
+            path: "/taskapp"
             pathType: Prefix

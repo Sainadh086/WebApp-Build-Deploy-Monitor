@@ -27,8 +27,9 @@ try:
     db = MongoClient(f'mongodb://{user}:{password}@{host}:{port}/')
     notes = db['app']['notes']
 except:
-    #db = MongoClient("mongodb://192.168.1.8:27017/")
-    redirect('/error')
+    db = MongoClient("mongodb://192.168.1.8:27017/")
+    notes = db['app']['notes']
+
 # lambda function
 p_data = lambda x: request.form.get(x)
 

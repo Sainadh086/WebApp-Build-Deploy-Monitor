@@ -1,9 +1,10 @@
-appVersion: v1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mongodb
   namespace: taskapp
 spec:
+  serviceName: "mongo"
   replicas: 3
   selector:
     matchLabels:
@@ -15,24 +16,34 @@ spec:
     spec:
       containers:
       - name: mongodb
-        image: mongo:4.2.1
-        - env:
-            - name: MONGO_INITDB_ROOT_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: taskapp-secrets
-                  key: db_user
-            - name: MONGO_INITDB_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: taskapp-secrets
-                  key: db_password
+        image: "mongo:4.2.16"
+        command:
+          - "mongodb"
+          - "--replSet"
+          - rs0
+          - "--smallfiles"
+          - "--noprealloc"
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: taskapp-secrets
+              key: db_user
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: taskapp-secrets
+              key: db_password
         ports:
         - containerPort: 27017
         volumeMounts:
-        - name: db-volume
+        - name: mongodb1-data
           mountPath: /data/db
-      volumes:
-      - name: mongodb-data
-        persistentVolumeClaim:
-          claimName: mongodb-data
+  volumeClaimTemplates:
+  - metadata:
+      name: mongodb1-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 5Gi
