@@ -22,7 +22,7 @@ jobs:
       - name: build a docker image
         run: docker build -t devapp:v1 .
 
-      - name: Push the docker image to the repository
+      - name: run the image
         shell: bash
         env:
           user_name: ${{ secrets.DOCKER_USER_NAME }}
@@ -38,7 +38,11 @@ jobs:
           echo "Started testing the docker app"
           docker run -p 8080:8080 -e MYAPP_DB_HOST=$host -e MYAPP_BD_PORT=27017 -e MYAPP_DB_USER="" -e MYAPP_DB_PASSWORD="" sainadh086/mytaskapp:v$ver
           echo "Just ran the docker app"
-          export status = $(curl -i http://localhost:8080/ | awk 'NR == 1' | awk '{print $2}')
+      - name: run the tests
+        run: |
+          export status=$(curl -i http://localhost:8080/ | awk 'NR == 1' | awk '{print $2}')
           if [ $status == 200 ]; then echo "Success"; else echo "failed"; fi
           echo "Completed testing"
+      - name: Push the docker image to the repository if testing is successful
+        run: |          
           if [$status == 200 ]; then docker push sainadh086/mytaskapp:v$ver; else echo "Docker push cancelled"; fi
