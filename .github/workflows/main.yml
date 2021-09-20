@@ -36,7 +36,7 @@ jobs:
           echo "Success"
           echo "Testing"
           echo "Started testing the docker app"
-          docker run -p 8080:8080 -e MYAPP_DB_HOST=$host -e MYAPP_BD_PORT=27017 -e MYAPP_DB_USER="" -e MYAPP_DB_PASSWORD="" sainadh086/mytaskapp:v$ver
+          docker run -d -p 8080:8080 -e MYAPP_DB_HOST=$host -e MYAPP_BD_PORT=27017 -e MYAPP_DB_USER="" -e MYAPP_DB_PASSWORD="" sainadh086/mytaskapp:v$ver
           echo "Just ran the docker app"
       - name: run the tests
         run: |
