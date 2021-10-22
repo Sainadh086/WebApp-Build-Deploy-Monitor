@@ -34,10 +34,5 @@ spec:
               key: db_password
               name: taskapp-secrets
         image: 'docker.io/sainadh086/mytaskapp:v7'
-        livenessProbe:
-          exec:
-            command: ["/bin/sh", "-c", "sleep 15"]
-          initialDelaySeconds: 10
-          periodSeconds: 5
         ports:
           - containerPort: 8080
