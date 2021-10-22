@@ -5,7 +5,7 @@ metadata:
   namespace: taskapp
 spec:
   serviceName: "mongo"
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: mongodb
@@ -16,13 +16,7 @@ spec:
     spec:
       containers:
       - name: mongodb
-        image: "mongo:4.2.16"
-        command:
-          - "mongodb"
-          - "--replSet"
-          - rs0
-          - "--smallfiles"
-          - "--noprealloc"
+        image: "mongo:5.0.3"
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:
@@ -37,11 +31,11 @@ spec:
         ports:
         - containerPort: 27017
         volumeMounts:
-        - name: mongodb1-data
+        - name: mongodb-data
           mountPath: /data/db
   volumeClaimTemplates:
   - metadata:
-      name: mongodb1-data
+      name: mongodb-data
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:

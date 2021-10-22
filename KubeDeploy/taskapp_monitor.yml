@@ -13,5 +13,5 @@ spec:
       app:  taskapp
       env: dev
   endpoints:
-  - port: "8081"
+  - port: "8080"
     interval: "10"

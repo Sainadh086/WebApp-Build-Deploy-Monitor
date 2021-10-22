@@ -41,7 +41,7 @@ jobs:
       - name: run the tests
         run: |
           export status=$(curl -i http://localhost:8080/ | awk 'NR == 1' | awk '{print $2}')
-          if [ $status == 200 ]; then echo "Success"; else echo "failed"; fi
+          if [ $status == 200 ]; then echo "Test Success"; else echo "Test Failed"; fi
           echo "Completed testing"
       - name: Push the docker image to the repository if testing is successful
         run: |          
